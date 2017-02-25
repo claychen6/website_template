@@ -1,0 +1,53 @@
+// test1
+//var path = require('path');
+//var ExtractTextPlugin = require('extract-text-webpack-plugin');
+//
+//module.exports = {
+//    entry: './app/index.js',
+//    output: {
+//        filename: 'bundle.js',
+//        path: path.resolve(__dirname, 'dist')
+//    },
+//    module: {
+//        rules: [{
+//            test: /\.css$/,
+//            use: 'css-loader'
+//        }]
+//    }
+//};
+
+// test2: lib
+//var webpack = require('webpack');
+//var path = require('path');
+//
+//module.exports = function (env) {
+//    return {
+//        entry: {
+//            main: './app/index.js',
+//            vendor: 'moment'
+//        },
+//        output: {
+//            filename: '[name].[chunkhash].js',
+//            path: path.resolve(__dirname, 'dist')
+//        },
+//        plugins: [
+//            new webpack.optimize.CommonsChunkPlugin({
+//                name: ['vendor', 'manifest'] // Specify the common bundle's name.
+//            })
+//        ]
+//    }
+//}
+
+//test3
+var path = require('path');
+
+module.exports = function (env) {
+    return {
+        entry: './app/entry.js',
+        output: {
+            filename: 'bundle.js',
+            path: path.resolve(__dirname, 'dist')
+        }
+    }
+}
+
