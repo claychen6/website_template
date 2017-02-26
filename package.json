@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build": "webpack --progress --colors",
-    "dev": "webpack --progress --colors --config ./webpack.config.js",
-    "watch": "webpack --progress --colors --watch --config ./webpack.config.js"
+    "dev": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch"
   }
 }
