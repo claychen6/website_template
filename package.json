@@ -25,5 +25,10 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
+  },
+  "scripts": {
+    "build": "webpack --progress --colors",
+    "dev": "webpack --progress --colors --config ./webpack.config.js",
+    "watch": "webpack --progress --colors --watch --config ./webpack.config.js"
   }
 }

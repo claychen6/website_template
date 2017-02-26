@@ -1,6 +1,6 @@
 "use strict"
 
-const debug = true;//process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV !== 'production';
 
 var path = require('path');
 var glob = require('glob');
@@ -17,7 +17,7 @@ let config = {
     entry: entries,
     output: {
         path: path.join(__dirname, 'dist'),
-        publicPath: '/static/',
+        publicPath: '',
         filename: 'js/[name].js',
         chunkFilename: 'scripts/[id].chunk.js?[chunkhash]'
     },
@@ -30,10 +30,10 @@ let config = {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract({use: 'css-loader!less-loader'})
             },
-            //{
-            //    test: /\.html$/,
-            //    loader: "html?-minimize"    //避免压缩html,https://github.com/webpack/html-loader/issues/50
-            //},
+            {
+                test: /\.html$/,
+                loader: "html-loader?interpolate"    //避免压缩html,https://github.com/webpack/html-loader/issues/50
+            },
             {
                 test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
@@ -65,7 +65,7 @@ let config = {
 
 let pages = Object.keys(getEntry('src/*.html', 'src/'));
 pages.forEach(function (pathname) {
-    var conf = {
+    let conf = {
         filename: pathname + '.html', //生成的html存放路径，相对于path
         template: 'src/' + pathname + '.html', //html模板路径
         inject: false,  //js插入的位置，true/'head'/'body'/false
@@ -78,14 +78,14 @@ pages.forEach(function (pathname) {
         // minify: { //压缩HTML文件
         //  removeComments: true, //移除HTML中的注释
         //  collapseWhitespace: false //删除空白符与换行符
-        // }
+        // }`
     };
-    //if (pathname in config.entry) {
-    //    conf.favicon = 'images/favicon.ico';
-    //    conf.inject = 'body';
-    //    conf.chunks = ['vendors', pathname];
-    //    conf.hash = true;
-    //}
+    if (pathname in config.entry) {
+        //conf.favicon = './images/favicon.ico';
+        conf.inject = 'body';
+        conf.chunks = ['vendors', pathname];
+        conf.hash = true;
+    }
     config.plugins.push(new HtmlWebpackPlugin(conf));
 });
 
@@ -98,7 +98,6 @@ function getEntry(globPath, pathDir) {
     for (var i = 0; i < files.length; i++) {
         let file = files[i];
         let pathObj = path.parse(file); // root dir base ext name
-        //let key = path.join(path.relative(pathDir, pathObj.dir), pathObj.name);
         entries[pathObj.name] = ['./' + file];
     }
     return entries;
